@@ -1,15 +1,16 @@
 import requests
 
 class fake_store():
+    HEADER = {"content-type": "application/json"}
 
     @staticmethod
     def get_categories():
-        return requests.get("https://fakestoreapi.com/products/categories").json()
+        return requests.get("https://fakestoreapi.com/products/categories", headers=fake_store.HEADER).json()
 
     @staticmethod
     def get_by_category(category):
         url = f"https://fakestoreapi.com/products/category/{category}"
-        response =  requests.get(url).json()
+        response =  requests.get(url, headers=fake_store.HEADER).json()
         if len(response) > 0:
             return response
         else:

@@ -14,8 +14,11 @@ class Lander{
     draw(c, size){
         this.y += this.velocity;
         this.x += this.lateral;
-        c.fillStyle = 'blue';
-        c.fillRect(this.x, this.y, size[0], size[1]);
+        // legacy animation with rectangle
+        // c.fillStyle = 'blue';
+        // c.fillRect(this.x, this.y, size[0], size[1]);
+        const landerSprite = document.getElementById("lander");
+        c.drawImage(landerSprite, this.x, this.y, size[0], size[1]);
     }
 
     burn(e){

@@ -4,7 +4,7 @@ console.log("begin landing!")
 const GRAVITY = .1;
 let frames = 0;
 const frameRate = 5;
-const spriteSize = [5, 5]
+const spriteSize = [25, 25]
 
 //setting background image size:
 const imgHeight = 150;
@@ -126,6 +126,7 @@ function animate() {
         if (lander.velocity > .4) {
             console.log("Crashed!");
             showMessage("FUCK!", "red");
+            refreshGuages(alarm);
         } else {
             console.log("Safe landing!");
             showMessage("Safe Landing!", "cyan");

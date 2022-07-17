@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <title>Lunar Lander</title>
+</head>
+<body>
+    <div id="main">
+        <canvas id="canvas"></canvas>
+        <div id="readout">
+            <div class="display">
+                <h4>Z Velocity</h4>
+                <p id="velocity">Velocity</p>
+            </div>
+            <div class="display">
+                <h4>Fuel:</h4>
+                <p id="fuel">Fuel</p>
+            </div>
+            <div class="display">
+                <h4>Keystroke:</h4>
+                <p id="key">key</p>
+            </div>      
+            <div id="restart" class="display">
+                <h4 class="alert">RESTART</h4>
+            </div>   
+        </div>
+    </div>
+<img src="./assets/stars.png" id="stars">
+
+<script src="items.js"></script>
+<script src="index.js"></script>
+    
+</body>
+</html>

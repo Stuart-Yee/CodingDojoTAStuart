@@ -1,0 +1,34 @@
+#main {
+    display: flex;
+}
+
+#readout {
+    width: 300px;
+    background-color: rgb(58, 56, 56);
+    color: chartreuse;
+    display: inline-block;
+}
+
+.display {
+    margin: auto;
+    display: flex;
+    height: 140px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 2px solid green;
+    margin: 5px;
+    border-radius: 10px;
+    background-color: rgb(29, 29, 29);
+    
+}
+
+#stars {
+    display: none;
+}
+
+.alert {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}

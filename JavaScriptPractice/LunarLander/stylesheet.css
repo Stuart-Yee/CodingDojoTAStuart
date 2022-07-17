@@ -1,5 +1,6 @@
 #main {
     display: flex;
+    position: relative;
 }
 
 #readout {
@@ -31,4 +32,18 @@
     color: red;
     font-weight: bold;
     text-align: center;
+}
+
+.message {
+    position: absolute;
+    width: 1200px;
+    height: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#gameMsg {
+    color: cyan;
+    display: none;
 }

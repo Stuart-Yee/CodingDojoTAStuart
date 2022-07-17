@@ -41,7 +41,16 @@ window.onload = function () {
     c.drawImage(img, 0, 0, imgWidth, imgHeight);   
 }
 
+c.fillStyle = 'gray';
+c.fillRect(0, canvas.height-1, 5, canvas.width);
 
+function showMessage(message, color){
+    const box = document.getElementById("gameMsg");
+    box.style.display = "block";
+    box.style.color = color;
+    box.innerHTML = message;
+
+}
 
 function refreshGuages(alarm=false){
     if (lander.crashed){
@@ -69,10 +78,11 @@ window.addEventListener(
             lander.restart(startSettings);
             animate();
         }
-        refreshGuages(alarm=alarm);
+        // refreshGuages(alarm=alarm);
         if (e.key === "x"){
             lander.crashed = true;
             console.log("scuttling the ship!")
+            showMessage("Self Destruct!", "red");
 
         } 
 
@@ -84,14 +94,16 @@ window.addEventListener(
 restart.addEventListener("click", function() {
     console.log("restarting...");
     lander.restart(startSettings);
-    refreshGuages()
+    document.getElementById("gameMsg").style.display = "none";
     animate()
 
     
 });
 
 function animate() {
-    c.drawImage(img, 0, 0, imgWidth, imgHeight); 
+    c.drawImage(img, 0, 0, imgWidth, imgHeight);
+    c.fillStyle = 'gray';
+    c.fillRect(0, canvas.height-5, canvas.width, 5);  
     lander.draw(c, spriteSize);
     frames++;
     if (frames%frameRate === 0){
@@ -103,8 +115,21 @@ function animate() {
     } else {
         refreshGuages();
     }
-    if (lander.y+spriteSize[0] >= canvas.height) {
+    console.log("log", (lander.velocity*10).toFixed(2));
+    if (lander.y+spriteSize[0] >= canvas.height-2) {
+        let alarm = false;
+        if(lander.fuel===0){
+            alarm = true;
+        }
+        refreshGuages(alarm=alarm);
         lander.crashed = true;
+        if (lander.velocity > .4) {
+            console.log("Crashed!");
+            showMessage("FUCK!", "red");
+        } else {
+            console.log("Safe landing!");
+            showMessage("Safe Landing!", "cyan");
+        }
     }
     if (lander.crashed==false){
         window.requestAnimationFrame(animate);

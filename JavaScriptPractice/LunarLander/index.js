@@ -113,7 +113,7 @@ window.addEventListener(
         let alarm = lander.burn(e);
         if (e.key === "Escape"){
             lander.restart(startSettings);
-            animate();
+            start();
         }
         // refreshGuages(alarm=alarm);
         if (e.key === "x"){
@@ -132,7 +132,7 @@ restart.addEventListener("click", function() {
     console.log("restarting...");
     lander.restart(startSettings);
     document.getElementById("gameMsg").style.display = "none";
-    animate()
+    start();
 
     
 });
@@ -185,7 +185,7 @@ function animate() {
 }
 
 function start(){
-    const msgColor = "chartreuse";
+    const msgColor = "deepskyblue";
     showMessage("Prepare to Land!", msgColor);
     setTimeout(()=> {
         showMessage("3", msgColor);

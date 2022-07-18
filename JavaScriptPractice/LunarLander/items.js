@@ -36,14 +36,12 @@ class Lander{
     thrusters(e) {
         switch(e.key){
             case "ArrowRight":
-                console.log("right arrow");
                 this.fuel--;
                 this.lateral += latThruser;
                 break;
             case "ArrowLeft":
                 this.fuel--;
                 this.lateral -= latThruser;
-                console.log("left arrow")
                 break;
         }
     }
@@ -58,4 +56,22 @@ class Lander{
         this.lateral = startSettings.lateral
         this.crashed = false;
     }
+}
+
+class LandingPad{
+    constructor(x, y, width){
+        this.x = x,
+        this.y = y,
+        this.width = width;
+        this.edge = x + width;
+        console.log(this.edge)
+    }
+
+    draw(c){
+        c.fillStyle = 'blue';
+        c.fillRect(this.x, this.y, this.width, 3);
+    }
+
+
+
 }

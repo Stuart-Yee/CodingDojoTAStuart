@@ -4,18 +4,30 @@ console.log("begin landing!")
 const GRAVITY = .1;
 let frames = 0;
 const frameRate = 5;
-const spriteSize = [25, 25]
+const spriteSize = [25, 20] // width, height
 
 //setting background image size:
 const imgHeight = 150;
 const imgWidth = 2*imgHeight; 
 
 const startSettings = {
-    "position": { x: 150, y: 30 },
+    "position": { x: 150, y: 15 },
     "fuel": 50,
     "velocity": 0,
     "lateral": 0
 }
+
+const startSettingsM = {
+    "position": { x: 0, y: 15 },
+    "fuel": 50,
+    "velocity": 0,
+    "lateral": .4
+}
+
+//crash conditions
+const maxVel = .4
+const maxLat = .2
+const minLat =-.2
 
 // Control consoles
 const readout = document.getElementById("key");
@@ -27,6 +39,11 @@ const restart = document.getElementById("restart");
 lander = new Lander(startSettings);
 guage.innerHTML = lander.fuel;
 speedometer.innerHTML = lander.velocity;
+
+//Landing pad
+let startX = getRandomStart();
+console.log("start x", startX)
+landingPad = new LandingPad(startX, canvas.height-3, spriteSize[0]*1.5);
 
 
 // Setting up the Canvas
@@ -41,9 +58,11 @@ window.onload = function () {
     c.drawImage(img, 0, 0, imgWidth, imgHeight);   
 }
 
+//Major Tom to GROUND control...
 c.fillStyle = 'gray';
 c.fillRect(0, canvas.height-1, 5, canvas.width);
 
+//Show message on screens
 function showMessage(message, color){
     const box = document.getElementById("gameMsg");
     box.style.display = "block";
@@ -52,6 +71,7 @@ function showMessage(message, color){
 
 }
 
+//Refresh instrumentation information with animation
 function refreshGuages(alarm=false){
     if (lander.crashed){
         speedometer.innerHTML = 0;
@@ -65,8 +85,25 @@ function refreshGuages(alarm=false){
         guage.classList.remove('alert')
         guage.innerHTML = lander.fuel;
     }
-    
+}
 
+//generate random starting number for launch pad
+function getRandomStart(){
+    x = Math.floor(Math.random()*100);
+    mod = Math.floor(Math.random()*100);
+    console.log("mod", mod);
+    let retvalue = x;
+    if (mod>66) {
+        retvalue += 200;
+    } else if (mod > 33) {
+        retvalue += 100;
+    }
+    if (retvalue > 250) {
+        console.log(retvalue, "too high! Trying again...")
+        return getRandomStart();
+    } else {
+        return retvalue;
+    }
 }
 
 window.addEventListener(
@@ -103,7 +140,8 @@ restart.addEventListener("click", function() {
 function animate() {
     c.drawImage(img, 0, 0, imgWidth, imgHeight);
     c.fillStyle = 'gray';
-    c.fillRect(0, canvas.height-5, canvas.width, 5);  
+    c.fillRect(0, canvas.height-5, canvas.width, 5); 
+    landingPad.draw(c); 
     lander.draw(c, spriteSize);
     frames++;
     if (frames%frameRate === 0){
@@ -115,18 +153,26 @@ function animate() {
     } else {
         refreshGuages();
     }
-    console.log("log", (lander.velocity*10).toFixed(2));
-    if (lander.y+spriteSize[0] >= canvas.height-2) {
+    // console.log("lat", (lander.lateral*10).toFixed(2));
+    if (lander.y+spriteSize[1] >= canvas.height-2) {
         let alarm = false;
         if(lander.fuel===0){
             alarm = true;
         }
         refreshGuages(alarm=alarm);
         lander.crashed = true;
-        if (lander.velocity > .4) {
+        // console.log("lander", lander.x, "pad", landingPad.x, landingPad.edge);
+        if (lander.velocity > maxVel 
+            || minLat > lander.lateral || maxLat < lander.lateral 
+            || lander.x < landingPad.x || lander.x + spriteSize[0] > landingPad.edge
+            ) {
+            
             console.log("Crashed!");
             showMessage("FUCK!", "red");
-            refreshGuages(alarm);
+            if (lander.fuel <= 0) {
+                guage.className = "alert"
+                guage.innerHTML = "FUEL EXPENDED!"
+            }
         } else {
             console.log("Safe landing!");
             showMessage("Safe Landing!", "cyan");

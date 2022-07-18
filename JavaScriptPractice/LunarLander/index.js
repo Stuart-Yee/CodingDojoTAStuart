@@ -184,5 +184,27 @@ function animate() {
     
 }
 
-animate()
+function start(){
+    const msgColor = "chartreuse";
+    showMessage("Prepare to Land!", msgColor);
+    setTimeout(()=> {
+        showMessage("3", msgColor);
+        setTimeout(()=> {
+            showMessage("2", msgColor);
+            setTimeout(()=>{
+                showMessage("1", msgColor);
+                setTimeout(()=>{
+                    showMessage("", "black");
+                    animate()
+                }, 1000);
+
+            }, 1000);
+        }, 1000);
+    
+    }, 2000);
+}
+
+start();
+
+
 

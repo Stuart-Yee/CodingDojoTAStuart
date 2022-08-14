@@ -1,5 +1,11 @@
 console.log("begin landing!")
 
+setTimeout(()=>{
+    console.log("1st timeout message");
+},
+ 3000);
+ console.log("2nd message");
+
 // Gravity and animation
 const GRAVITY = .1;
 let frames = 0;
@@ -81,6 +87,7 @@ function refreshGuages(alarm=false){
     if (alarm) {
         guage.className = "alert"
         guage.innerHTML = "FUEL EXPENDED!"
+        blink(guage, guage.style.color, 'rgb(29, 29, 29)');
     } else {
         guage.classList.remove('alert')
         guage.innerHTML = lander.fuel;
@@ -136,6 +143,19 @@ restart.addEventListener("click", function() {
 
     
 });
+
+function blink(element, origColor, bgColor){
+    setTimeout(()=>{
+        if(element.style.color === origColor){
+            element.style.color = bgColor;
+        } else {
+            element.style.color = origColor;
+        }
+        blink(element, origColor, bgColor);
+
+    }, 1000);
+
+}
 
 function animate() {
     c.drawImage(img, 0, 0, imgWidth, imgHeight);
